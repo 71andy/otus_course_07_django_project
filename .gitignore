@@ -1,0 +1,8 @@
+.venv
+.vscode
+.unibeautifyrc.yml
+db.sqlite3
+media
+**/*.ipynb
+**/__pycache__
+**/.DS_Store

@@ -1,0 +1,38 @@
+{% load static %}
+<!-- Логотип -->
+<div class="logo">
+  <a href="{% url 'home' %}"><img src="{% static 'hsite/images/logo.jpg' %}">
+  </a>
+</div>
+<!-- Userblock -->
+<div class="userBlock">
+  {% if request.user.is_authenticated %}
+    <div>
+      {% if request.user.profile.avatar %}
+        <img class="img-avatar thumb" src="{{ request.user.profile.avatar.url}}">
+      {% endif %}
+    </div>
+    <div>
+      &nbsp;
+    </div>
+    <div>
+      <a href="{% url 'profile' %}">{{ user.username }}</a>
+    </div>
+    <div>
+      &nbsp; | &nbsp;
+    </div>
+    <div>
+      <a href="{% url 'logout' %}">Выйти</a>
+    </div>
+  {% else %}
+    <div>
+      <a href="{% url 'register' %}">Регистрация</a>
+    </div>
+    <div>
+      &nbsp; | &nbsp;
+    </div>
+    <div>
+      <a href="{% url 'login' %}">Войти</a>
+    </div>
+  {% endif %}
+</div>

@@ -1,0 +1,22 @@
+{% extends 'hsite/base.html' %}
+
+{% block content %}
+
+  <h1>{{ title }}</h1>
+  <form method="post">
+    {% csrf_token %}
+
+    {% if request.user.is_authenticated %}
+      <div>
+        {% if request.user.profile.avatar %}
+          <img class="img-avatar" src="{{ request.user.profile.avatar.url}}">
+        {% endif %}
+      </div>
+      <div>
+        <p>{{ user.username }}</p>
+      </div>
+    {% endif %}
+    <button type='submit'>Выйти</button>
+  </form>
+
+{% endblock %}

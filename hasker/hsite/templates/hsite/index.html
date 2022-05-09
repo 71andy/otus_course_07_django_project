@@ -1,0 +1,40 @@
+{% extends 'hsite/base.html' %}
+
+{% block content %}
+  <ul class="qa-list">
+    {% for q in questions_list %}
+      <li>
+        <div class="qa-line">
+          <div>
+            <div class="qa-num">
+              {{q.votes}}
+            </div>
+            <div class="qa-small-text">
+              Votes
+            </div>
+          </div>
+          <div>
+            <div class="qa-num">
+              {{q.answers}}
+            </div>
+            <div class="qa-small-text">
+              Answers
+            </div>
+          </div>
+          <div class="qs-title">
+            <a href="{{ q.get_absolute_url }}">{{q.title}}</a>
+          </div>
+          <div class="qa-user">
+            <div>
+              {{ q.user }}
+            </div>
+            <div class="qa-small-text">
+              asked
+              {{ q.get_q_age }}
+            </div>
+          </div>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}
