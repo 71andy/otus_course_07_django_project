@@ -2,14 +2,18 @@
 
 <div class="qa-votes">
   <div>
-    <a href="?{{mode}}={{pk}}&vote=like"
-      ><img src="{% static 'hsite/images/icons8-plus-16.png' %}"
-    /></a>
+    {% if request.user.is_authenticated %}
+    <a href="?{{mode}}={{pk}}&vote=like">
+      <img src="{% static 'hsite/images/icons8-plus-16.png' %}" />
+    </a>
+    {% endif %}
   </div>
   <div class="qa-num">{{votes}}</div>
   <div>
-    <a href="?{{mode}}={{pk}}&vote=dislike"
-      ><img src="{% static 'hsite/images/icons8-minus-16.png' %}"
-    /></a>
+    {% if request.user.is_authenticated %}
+    <a href="?{{mode}}={{pk}}&vote=dislike">
+      <img src="{% static 'hsite/images/icons8-minus-16.png' %}" />
+    </a>
+    {% endif %}
   </div>
 </div>

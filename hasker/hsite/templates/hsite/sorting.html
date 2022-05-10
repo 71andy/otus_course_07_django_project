@@ -1,0 +1,21 @@
+<div class="main sorting">
+  {% if order_by_date %}
+  <div class="active-sorting">
+    <a href="{% url 'home-by-date' %}">Новые вопросы</a>
+  </div>
+  {% else %}
+  <div class="inactive-sorting">
+    <a href="{% url 'home-by-date' %}">Новые вопросы</a>
+  </div>
+  {% endif %}
+  <div>|</div>
+  {% if order_by_date %}
+  <div class="inactive-sorting">
+    <a href="{% url 'home-by-votes' %}">Популярные вопросы</a>
+  </div>
+  {% else %}
+  <div class="active-sorting">
+    <a href="{% url 'home-by-date' %}">Популярные вопросы</a>
+  </div>
+  {% endif %}
+</div>

@@ -22,10 +22,21 @@ class IndexView(generic.ListView):
     context_object_name = 'questions_list'
     paginate_by = 20
 
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['order_by_date'] = self.kwargs.get('order') == 'date'
+        return context
+
     def get_queryset(self):
-        q = Question.objects.annotate(
-            votes=(Count('likes', distinct=True) - Count('dislikes', distinct=True))
-        ).annotate(answers=Count('answer', distinct=True))
+        order_by = {'date': '-pub_date', 'votes': '-votes'}
+        order = self.kwargs.get('order')
+        if order not in order_by.keys():
+            order = 'date'
+        q = (
+            Question.objects.annotate(votes=(Count('likes', distinct=True) - Count('dislikes', distinct=True)))
+            .annotate(answers=Count('answer', distinct=True))
+            .order_by(order_by[order])
+        )
 
         return q
 
@@ -64,6 +75,9 @@ class QuestionView(generic.DetailView):
         mode_map = {'answer': Answer, 'question': Question}
 
         user = self.request.user
+        if not user.is_authenticated:
+            return
+
         objects = mode_map[mode].objects
         obj = objects.get(pk=pk)
 
