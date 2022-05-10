@@ -3,19 +3,24 @@
 <ul class="qa-list">
   <li>
     <div class="qa-line">
-      {% with mode="question" pk=question.pk votes=question.get_votes %} 
-      {% include "./votes.html" %} {% endwith %}
+      {% with mode="question" pk=question.pk votes=question.get_votes %}
+      {% include "./votes.html" %}
+      {% endwith %}
       <div class="qa-text">
         <p>{{question.text}}</p>
       </div>
       <div class="qa-user">
         <div>
-          {{ question.user }} &nbsp; {% if question.user.profile.avatar %}
+          {% if question.user.profile.avatar %}
           <img
-            class="img-avatar thumb"
-            src="{{ question.user.profile.avatar.url}}"
+          class="img-avatar thumb"
+          src="{{ question.user.profile.avatar.url}}"
           />
           {% endif %}
+          <div>
+            {{ question.user }} 
+          </div>
+          <div class="qa-small-text">{{ question.get_q_age }}</div>
         </div>
       </div>
     </div>
@@ -26,16 +31,21 @@
   <li>
     <div class="qa-line">
       {% with mode="answer" pk=a.pk votes=a.votes %} 
-      {% include "./votes.html" %} {% endwith %}
+      {% include "./votes.html" %} 
+      {% endwith %}
       <div class="qa-text">
         <p>{{a.text}}</p>
       </div>
       <div class="qa-user">
         <div>
-          {{ a.user }} &nbsp; {% if a.user.profile.avatar %}
+          {% if a.user.profile.avatar %}
           <img class="img-avatar thumb" src="{{ a.user.profile.avatar.url}}" />
           {% endif %}
         </div>
+        <div>
+          {{ a.user }}
+        </div>
+        <div class="qa-small-text">{{ a.get_a_age }}</div>
       </div>
     </div>
   </li>

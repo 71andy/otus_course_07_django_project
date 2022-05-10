@@ -19,6 +19,21 @@ def unique_fname(instance, filename):
     return os.path.join('profile_images', filename)
 
 
+def get_age_by_date(date):
+    td = datetime.now(tz=timezone.utc) - date
+    sec = round(td.total_seconds())
+    if sec < 60:
+        return "now"
+    elif sec < 3600:
+        return f"{sec//60} min ago"
+    elif sec < 3600 * 24:
+        return f"{sec//3600} hour ago"
+    elif sec < 3600 * 24 * 30:
+        return f"{sec//(3600*24)} day ago"
+    else:
+        return f"{sec//(3600*24*30)} month ago"
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     avatar = models.ImageField(default='default-avatar.png', upload_to=unique_fname)
@@ -56,18 +71,7 @@ class Question(models.Model):
         return reverse("question", kwargs={"pk": self.pk})
 
     def get_q_age(self):
-        td = datetime.now(tz=timezone.utc) - self.pub_date
-        sec = round(td.total_seconds())
-        if sec < 60:
-            return "now"
-        elif sec < 3600:
-            return f"{sec//60} min ago"
-        elif sec < 3600 * 24:
-            return f"{sec//3600} hour ago"
-        elif sec < 3600 * 24 * 30:
-            return f"{sec//(3600*24)} day ago"
-        else:
-            return f"{sec//(3600*24*30)} month ago"
+        return get_age_by_date(self.pub_date)
 
     def get_votes(self):
         q = Question.objects.filter(pk=self.pk)
@@ -86,6 +90,9 @@ class Answer(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_a_age(self):
+        return get_age_by_date(self.pub_date)
 
 
 # class QuestionVotes(models.Model):

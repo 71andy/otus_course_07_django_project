@@ -52,7 +52,7 @@ class QuestionView(generic.DetailView):
         question = kwargs['object']
         q = Answer.objects.filter(question=question.pk)
         q = q.annotate(votes=(Count('likes', distinct=True) - Count('dislikes', distinct=True)))
-        q = q.order_by('pub_date')
+        q = q.order_by('-votes', '-pub_date')
         context['answers_list'] = q
         context['answer_form'] = AnswerForm()
         return context
