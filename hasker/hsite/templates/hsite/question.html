@@ -11,14 +11,11 @@
       </div>
       <div class="qa-user">
         <div>
-          {% if question.user.profile.avatar %}
-          <img
-          class="img-avatar thumb"
-          src="{{ question.user.profile.avatar.url}}"
-          />
-          {% endif %}
           <div>
-            {{ question.user }} 
+            <img class="img-avatar thumb" src="{{ question.user.profile.get_avatar_url}}"/>
+          </div>
+          <div>
+            {{ question.user }}
           </div>
           <div class="qa-small-text">{{ question.get_q_age }}</div>
         </div>
@@ -30,17 +27,15 @@
   {% for a in answers_list %}
   <li>
     <div class="qa-line">
-      {% with mode="answer" pk=a.pk votes=a.votes %} 
-      {% include "./votes.html" %} 
+      {% with mode="answer" pk=a.pk votes=a.votes %}
+      {% include "./votes.html" %}
       {% endwith %}
       <div class="qa-text">
         <p>{{a.text}}</p>
       </div>
       <div class="qa-user">
         <div>
-          {% if a.user.profile.avatar %}
-          <img class="img-avatar thumb" src="{{ a.user.profile.avatar.url}}" />
-          {% endif %}
+          <img class="img-avatar thumb" src="{{ a.user.profile.get_avatar_url}}" />
         </div>
         <div>
           {{ a.user }}

@@ -5,6 +5,7 @@ from django.db import models
 from django.db.models import Count
 from django.db.models.functions import Coalesce
 from django.contrib.auth.models import User
+from django.conf import settings
 from django.urls import reverse
 
 from datetime import datetime, timezone
@@ -53,6 +54,11 @@ class Profile(models.Model):
                 img.save(self.avatar.path)
         except FileNotFoundError:
             pass
+
+    def get_avatar_url(self):
+        if self.avatar:
+            return os.path.join(settings.MEDIA_URL, self.avatar.name)
+        return os.path.join(settings.MEDIA_URL, 'default-avatar.png')
 
 
 class Question(models.Model):

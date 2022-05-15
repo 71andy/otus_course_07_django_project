@@ -8,9 +8,7 @@
 
     {% if request.user.is_authenticated %}
       <div>
-        {% if request.user.profile.avatar %}
-          <img class="img-avatar" src="{{ request.user.profile.avatar.url}}">
-        {% endif %}
+        <img class="img-avatar" src="{{ request.user.profile.get_avatar_url}}">
       </div>
       <div>
         <p>{{ user.username }}</p>
