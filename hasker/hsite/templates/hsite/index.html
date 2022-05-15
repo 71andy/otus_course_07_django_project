@@ -26,6 +26,11 @@
           </div>
           <div class="qa-user">
             <div>
+              {% if q.user.profile.avatar %}
+              <img class="img-avatar thumb" src="{{ q.user.profile.avatar.url}}" />
+              {% endif %}
+            </div>
+                <div>
               {{ q.user }}
             </div>
             <div class="qa-small-text">
