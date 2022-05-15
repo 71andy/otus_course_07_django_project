@@ -4,7 +4,7 @@ from .views import *
 
 # app_name = 'hsite'
 urlpatterns = [
-    path('', IndexView.as_view(), {'order': 'date'}, name='home'),
+    path('', IndexView.as_view(), {'order': 'date'}, name='main-page'),
     re_path(r'^date/$', IndexView.as_view(), {'order': 'date'}, name='home-by-date'),
     re_path(r'^votes/$', IndexView.as_view(), {'order': 'votes'}, name='home-by-votes'),
     path('login/', CustomLoginView.as_view(), name='login'),

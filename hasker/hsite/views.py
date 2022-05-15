@@ -98,7 +98,7 @@ class QuestionView(generic.DetailView):
 class AskView(LoginRequiredMixin, generic.CreateView):
     form_class = AskForm
     template_name = 'hsite/ask.html'  # Указание имени темплейта
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('main-page')
     # Настройка поведения LoginRequiredMixin
     login_url = reverse_lazy('login')  # Переход на URL если пользователь не авторизован
     # raise_exception = True  # Показывать страницу 403 неавторизованным пользователям
@@ -143,14 +143,14 @@ class RegisterView(View):
             user = form.save()
             # Автоматический вход при успешной регистрации
             login(self.request, user)
-            return redirect('home')
+            return redirect('main-page')
 
         return render(request, self.template_name, {'form': form})
 
     def dispatch(self, request, *args, **kwargs):
-        # will redirect to the home page if a user tries to access the register page while logged in
+        # will redirect to the main-page if a user tries to access the register page while logged in
         if request.user.is_authenticated:
-            return redirect('home')
+            return redirect('main-page')
 
         # else process dispatch as it otherwise normally would
         return super(RegisterView, self).dispatch(request, *args, **kwargs)
@@ -162,7 +162,6 @@ class CustomLoginView(auth_views.LoginView):
     template_name = 'hsite/login.html'
 
     def dispatch(self, request, *args, **kwargs):
-        # will redirect to the home page if a user tries to access the register page while logged in
         if request.user.is_authenticated:
             return redirect('logout-page')
 
@@ -183,7 +182,7 @@ class CustomLoginView(auth_views.LoginView):
         return super(CustomLoginView, self).form_valid(form)
 
     def get_success_url(self):
-        return reverse_lazy('home')
+        return reverse_lazy('main-page')
 
 
 def logout_user(request):
