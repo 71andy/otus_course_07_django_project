@@ -19,13 +19,13 @@
 
   <body>
     <div id="app">
-      <div class="header">{% include './header.html' %}</div>
-      {% include './sorting.html' %}
+      <div class="header">{% include './_header.html' %}</div>
+      {% include './_sorting.html' %}
       <!-- Основной блок -->
       <div class="main">
         <!-- Блок контента -->
         <div class="content-text">
-          {% block content %}{% endblock %} {% include './paginator.html' %}
+          {% block content %}{% endblock %} {% include './_paginator.html' %}
         </div>
         <!-- Конец блока контента -->
 
