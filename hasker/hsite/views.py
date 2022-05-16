@@ -2,6 +2,7 @@
 # from django.contrib.auth.forms import UserCreationForm
 # from django.http import HttpResponse, HttpResponseRedirect
 # from django.template import loader
+from django.db import transaction
 from django.db.models import Count, Value, Sum
 from django.db.models.functions import Coalesce
 from django.shortcuts import redirect, render, get_object_or_404
@@ -12,7 +13,6 @@ from django.contrib.auth import views as auth_views
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
-
 from .models import *
 from .forms import *
 
@@ -71,6 +71,7 @@ class QuestionView(generic.DetailView):
 
         return super().get(request, *args, **kwargs)
 
+    @transaction.atomic
     def update_vote(self, pk, vote, mode):
         mode_map = {'answer': Answer, 'question': Question}
 
