@@ -15,4 +15,5 @@ urlpatterns = [
     path("question/<int:pk>", QuestionView.as_view(), name="question"),
     path("question/<int:pk>/ans", post_answer, name="answer"),
     path('ask/', AskView.as_view(), name='ask'),
+    path('search/', SearchView.as_view(), name='search'),
 ]

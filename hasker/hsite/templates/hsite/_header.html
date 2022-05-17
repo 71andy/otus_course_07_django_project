@@ -4,6 +4,11 @@
   <a href="{% url 'main-page' %}"><img src="{% static 'hsite/images/logo.jpg' %}">
   </a>
 </div>
+<!-- Search -->
+<div>
+  <form action="{% url 'search' %}" method="get">
+    {{ search_form }}
+</div>
 <!-- Userblock -->
 <div class="userBlock">
   {% if request.user.is_authenticated %}

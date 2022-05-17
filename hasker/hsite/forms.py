@@ -125,3 +125,7 @@ class UpdateProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
         fields = ['avatar']
+
+
+class SearchForm(forms.Form):
+    search = forms.CharField(label='Search', max_length=30)

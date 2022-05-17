@@ -3,7 +3,7 @@
 # from django.http import HttpResponse, HttpResponseRedirect
 # from django.template import loader
 from django.db import transaction
-from django.db.models import Count, Value, Sum
+from django.db.models import Count, Value, Q, Sum
 from django.db.models.functions import Coalesce
 from django.shortcuts import redirect, render, get_object_or_404
 from django.urls import reverse, reverse_lazy
@@ -16,6 +16,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import *
 from .forms import *
 
+# from .filters import *
+
 
 class IndexView(generic.ListView):
     template_name = 'hsite/index.html'
@@ -25,6 +27,8 @@ class IndexView(generic.ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         context['order_by_date'] = self.kwargs.get('order') == 'date'
+        context['search_form'] = SearchForm()
+
         return context
 
     def get_queryset(self):
@@ -94,6 +98,35 @@ class QuestionView(generic.DetailView):
                 obj.dislikes.remove(user)
             elif user not in likes:
                 obj.likes.add(user)
+
+
+class SearchView(generic.ListView):
+    form_class = SearchForm
+    template_name = 'hsite/search_result.html'  # Указание имени темплейта
+    context_object_name = 'questions_list'
+    # success_url = reverse_lazy('search')
+    paginate_by = 2
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Search result'
+        search_form = SearchForm(self.request.GET)
+        context['search_form'] = search_form
+
+        return context
+
+    def get_queryset(self):
+
+        search_str = self.request.GET.get('search', '')
+
+        q = (
+            Question.objects.filter(Q(title__contains=search_str) | Q(text__contains=search_str))
+            .annotate(votes=(Count('likes', distinct=True) - Count('dislikes', distinct=True)))
+            .annotate(answers=Count('answer', distinct=True))
+            .order_by('-votes', '-pub_date')
+        )
+
+        return q
 
 
 class AskView(LoginRequiredMixin, generic.CreateView):
